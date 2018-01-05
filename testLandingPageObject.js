@@ -35,13 +35,12 @@ async function testITSILandingPageObject() {
     await portal.logout();
   }
   else {console.log("Auth not verified")}
-
-
-  //portal.clickButton('register');
-  //portal.switchToModal();
-  //var modalHeader = portal.find(REGISTER_MODAL_HEADER).text;
-  //console.log("Header is " + modalHeader);
-  //portal.closeModal();
+  await portal.sleepWait(2000);
+  await portal.clickButton('register');
+  await portal.switchToModal();
+  var modalHeader = await portal.find(REGISTER_MODAL_HEADER).text;
+  console.log("Header is " + modalHeader);
+  await loginModal.closeModal();
 }
 
 testITSILandingPageObject();
