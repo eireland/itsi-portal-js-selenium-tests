@@ -7,7 +7,7 @@ const
   EXPLORE_ACTIVITIES = {xpath: "//div[contains(@class,'home-page-content')]/p/a[contains(text(), 'Explore ITSI activities')]"},
   ITSI_HOME_LINK = {css: '.concord-logo'},
   ABOUT_LINK = {css: ".portal-pages-main-nav-about > a" },
-  REGISTER_BUTTON = {xpath: "//li[contains(@class,'portal-pages-main-nave-item')]/a[contains(@href='/signup'"},
+  REGISTER_BUTTON = {xpath: "//li[contains(@class,'portal-pages-main-nav-item')]/a[contains(@href,'/signup')]"},
   LOGIN_BUTTON = {xpath:  "//li[contains(@class,'portal-pages-main-nav-item')]/a[contains(@href,'/login')]"},
   LOGOUT = {xpath: "//li[contains(@class,'portal-pages-main-nav-item')]/a[contains(@title,'Log Out')]"},
   LOGOUT_SUCCESS = {xpath: '//div[(@class="flash notice") and contains(text(),"Signed out successfully")]'};
@@ -52,7 +52,7 @@ class ITSILandingPageObject extends BaseObject {
   }
 
   async logout() {
-    super.clickOn(LOGOUT);
+    await super.clickOn(LOGOUT);
     if (super.displayed(LOGOUT_SUCCESS)) {
       console.log("Sign out successful");
     }
