@@ -1,8 +1,8 @@
 var BaseObject = require('./webdriverBase');
-var webdriver = require('selenium-webdriver'),
-  By = webdriver.By,
-  until = webdriver.until;
-var assert = require ('assert');
+//var webdriver = require('selenium-webdriver'),
+//  By = webdriver.By,
+//  until = webdriver.until;
+//var assert = require ('assert');
 
 const   ABOUT_HEADER = {xpath: '//h3[contains(text(),"About the Innovative Technology")]'};
 

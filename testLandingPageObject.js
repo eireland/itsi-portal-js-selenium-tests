@@ -2,6 +2,8 @@ async function testITSILandingPageObject() {
   console.log("In testITSILandingPageObject");
   const portal = require('./itsiLandingPageObject');
   const aboutPage = require('./aboutPageObject');
+  const loginModal = require ('./loginModalObject');
+  const homePage = require ('./userHomePageObject');
   const homeDir = require('os').homedir();
 
 
@@ -18,21 +20,23 @@ async function testITSILandingPageObject() {
   await portal.verifyPage("ITSI Portal");
   console.log("Open About page");
   await portal.clickLink('about');
-  portal.sleepWait(2000);
+  await portal.sleepWait(2000);
   await aboutPage.verifyAboutPage();
   console.log("Open Landing Page");
   await portal.clickLink('logo');
-  portal.sleepWait(2000);
-  //await portal.verifyLandingPage();
-  //await portal.clickButton('login');
-  //portal.login(adminName, adminPassword);
-  //
-  //if (portal.verifyAuthUser('admin')){
-  //  console.log("Auth verified");
-  //}
-  //else {console.log("Auth not verified")}
-  //
-  //portal.logout();
+  await portal.sleepWait(2000);
+  await portal.verifyLandingPage();
+  await portal.clickButton('login');
+  await loginModal.login(adminName, adminPassword);
+  await portal.sleepWait(2000);
+
+  if (await homePage.verifyAuthUser('admin')){
+    console.log("Auth verified");
+    await portal.logout();
+  }
+  else {console.log("Auth not verified")}
+
+
   //portal.clickButton('register');
   //portal.switchToModal();
   //var modalHeader = portal.find(REGISTER_MODAL_HEADER).text;

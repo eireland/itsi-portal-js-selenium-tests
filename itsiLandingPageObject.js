@@ -8,7 +8,9 @@ const
   ITSI_HOME_LINK = {css: '.concord-logo'},
   ABOUT_LINK = {css: ".portal-pages-main-nav-about > a" },
   REGISTER_BUTTON = {xpath: "//li[contains(@class,'portal-pages-main-nave-item')]/a[contains(@href='/signup'"},
-  LOGIN_BUTTON = {xpath:  "//li[contains(@class,'portal-pages-main-nave-item')]/a[contains(@href='/login'"};
+  LOGIN_BUTTON = {xpath:  "//li[contains(@class,'portal-pages-main-nav-item')]/a[contains(@href,'/login')]"},
+  LOGOUT = {xpath: "//li[contains(@class,'portal-pages-main-nav-item')]/a[contains(@title,'Log Out')]"},
+  LOGOUT_SUCCESS = {xpath: '//div[(@class="flash notice") and contains(text(),"Signed out successfully")]'};
 
 class ITSILandingPageObject extends BaseObject {
 
@@ -30,7 +32,7 @@ class ITSILandingPageObject extends BaseObject {
   }
 
   async clickButton(button){
-    var element
+    var element;
     switch (button){
       case 'login':
         element = LOGIN_BUTTON;
@@ -42,11 +44,21 @@ class ITSILandingPageObject extends BaseObject {
         element = EXPLORE_ACTIVITIES;
         break;
     }
-    super.clickOn(element);
+    await super.clickOn(element);
   }
 
   async verifyLandingPage(){
     await super.displayed(EXPLORE_ACTIVITIES);
+  }
+
+  async logout() {
+    super.clickOn(LOGOUT);
+    if (super.displayed(LOGOUT_SUCCESS)) {
+      console.log("Sign out successful");
+    }
+    else {
+      console.log("Sign out did not happen")
+    }
   }
 }
 

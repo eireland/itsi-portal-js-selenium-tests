@@ -23,6 +23,7 @@ class BaseObject {
 
   constructor() {
       global.driver = driver;
+      global.this = this;
   }
 
   async visit (url) {
@@ -38,17 +39,17 @@ class BaseObject {
   }
 
    async verifyPage(title) {
-    driver.getTitle().then(function(page_title) {
+    await driver.getTitle().then(function(page_title) {
       return assert.equal(title,page_title);
     })
   }
 
   async getPageTitle() {
-    return driver.getTitle();
+    return await driver.getTitle();
   }
 
   async getCurrentUrl() {
-    return driver.getCurrentUrl();
+    return await driver.getCurrentUrl();
   }
 
   async find(locator){ //locator is JSON object of form {id:'selector'} ie.{className: "class_name"}, {css: "#div > input[type='checkbox']}
@@ -78,14 +79,14 @@ class BaseObject {
 
   async clickWithOffset(locator, xoffset,yoffset) {
     var element = await driver.findElement(locator);
-    driver.actions().mouseMove(element, xoffset,yoffset).click().perform();
+    await driver.actions().mouseMove(element, xoffset,yoffset).click().perform();
   }
 
   async clickHold(locator, duration) {
     var element = await driver.findElement(locator);
-    driver.actions().mouseDown().mouseMove(element).mouseUp().perform();
-    driver.sleep(duration);
-    driver.actions().release(element).perform();
+    await driver.actions().mouseDown().mouseMove(element).mouseUp().perform();
+    await driver.sleep(duration);
+    await driver.actions().release(element).perform();
   }
 
   async hover(locator) {
@@ -94,7 +95,10 @@ class BaseObject {
   }
 
   async displayed(locator) {
-    assert(driver.wait(until.elementIsVisible(driver.findElement(locator))));
+    var visible = await driver.findElement(locator).isDisplayed().then(function(present){return present});
+    console.log("visible is "+visible);
+    return visible;
+
   }
 
   async textOf(locator) {
@@ -147,8 +151,8 @@ class BaseObject {
     driver.manage().timeouts().implicitlyWait(11000);
   }
 
-  sleepWait(duration) {
-    driver.sleep(duration);
+  async sleepWait(duration) {
+    await driver.sleep(duration);
   }
 
   switchToMain() {
